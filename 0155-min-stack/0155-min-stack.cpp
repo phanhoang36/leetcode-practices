@@ -1,7 +1,7 @@
 class MinStack {
 private:
     stack<int> st;
-    multiset<int> s;
+    map<int, int> mm;
 
 public:
     MinStack() {
@@ -9,12 +9,15 @@ public:
     }
     
     void push(int val) {
-        s.insert(val);
+        mm[val]++;
         st.push(val);
     }
     
     void pop() {
-        s.erase(s.find(st.top()));
+        mm[st.top()]--;
+        if (mm[st.top()] == 0) {
+            mm.erase(st.top());
+        }
         st.pop();
     }
     
@@ -23,6 +26,6 @@ public:
     }
     
     int getMin() {
-        return *s.begin();
+        return mm.begin()->first;
     }
 };
